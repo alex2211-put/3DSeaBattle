@@ -15,7 +15,7 @@ double rotate_x=0;
 // ----------------------------------------------------------
 void display(){
     //  Clear screen and Z-buffer
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Reset transformations
     glLoadIdentity();
@@ -104,7 +104,7 @@ void display(){
 // ----------------------------------------------------------
 // specialKeys() Callback Function
 // ----------------------------------------------------------
-void specialKeys( int key, int x, int y ) {
+void specialKeys( int key, int x, int y) {
 
     //  Right arrow - increase rotation by 5 degree
     if (key == GLUT_KEY_RIGHT)
@@ -129,15 +129,15 @@ void specialKeys( int key, int x, int y ) {
 // ----------------------------------------------------------
 // main() function
 // ----------------------------------------------------------
-int main(int argc, char* argv[]){
+int main(int argc, char* argv[]) {
 
     //  Initialize GLUT and process user parameters
-    glutInit(&argc,argv);
+    glutInit(&argc, argv);
 
     //  Request double buffered true color window with Z-buffer
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 
-    glutInitWindowSize(1200,800);
+    glutInitWindowSize(1200, 800);
 
     // Create window
     glutCreateWindow("Awesome Cube");
@@ -155,4 +155,4 @@ int main(int argc, char* argv[]){
     //  Return to OS
     return 0;
 
-
+}
