@@ -68,7 +68,6 @@ void display(){
         }
     }
 
-    //glDisable(GL_BLEND);     выключаем прозрачность
     glFlush();
     glutSwapBuffers();
 }
