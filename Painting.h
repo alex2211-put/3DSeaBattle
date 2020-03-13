@@ -14,7 +14,7 @@ double rotate_x=0; //начальный поворот куба по х
 double sizeCell = -0.05; //размеры кубиков
 double  stepCell = 0.1; //шаг при определении
 double quantityCell = 0.5-0.25; //количестве кубиков, тоесть их всего  (quantityCell/stepCell)   #### вычел 0.4, чтобы сместить кубики и чтобы крутились вокруг центра
-double transparency = 0.3; //прозрачность кубиков
+double transparency = 0.2; //прозрачность кубиков
 
 //функция рисует 3Д кубики на экране
 void displayCell(){
@@ -191,6 +191,21 @@ void displayCell(){
     glutSwapBuffers();
 }
 
+void changeSize(int w, int h)
+{
+    if (h == 0)
+        h=1;
+    glViewport(0,0,w,h);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    float ratio = w/(float)h;
+    if (w<=h)
+        glOrtho (-1,1,-1/ratio, 1/ratio, 1,-1);
+    else
+        glOrtho (-1*ratio,1*ratio, -1,1,1,-1);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+}
 
 //функция взаимодействия с клавиатурой
 void specialKeys( int key, int x, int y) {
