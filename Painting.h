@@ -13,7 +13,7 @@ double rotate_y=0;  //начальный поворот куба по у
 double rotate_x=0; //начальный поворот куба по х
 double sizeCell = -0.05; //размеры кубиков
 double  stepCell = 0.1; //шаг при определении
-double quantityCell = 0.5-0.4; //количестве кубиков, тоесть их всего  (quantityCell/stepCell)   #### вычел 0.4, чтобы сместить кубики и чтобы крутились вокруг центра
+double quantityCell = 0.5-0.25; //количестве кубиков, тоесть их всего  (quantityCell/stepCell)   #### вычел 0.4, чтобы сместить кубики и чтобы крутились вокруг центра
 double transparency = 0.3; //прозрачность кубиков
 
 //функция рисует 3Д кубики на экране
@@ -27,11 +27,11 @@ void displayCell(){
     glEnable(GL_BLEND);  //разрешаем мешать цвета
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);  //устанавдиваем уровень прозрачности - пока до конца не разобрался
 
-    for (float i = -0.4; i < quantityCell; i+=stepCell)  //опять же начинаю с -0.4  ### это чтобы сместить кубики и чтобы крутились вокруг центра
+    for (float i = -0.25; i < quantityCell; i+=stepCell)  //опять же начинаю с -0.25  ### это чтобы сместить кубики и чтобы крутились вокруг центра
     {
-        for (float j = -0.4; j < quantityCell; j+=stepCell)  //аналогия
+        for (float j = -0.25; j < quantityCell; j+=stepCell)  //аналогия
         {
-            for (float y = -0.4; y < quantityCell; y+=stepCell)   //аналогия
+            for (float y = -0.25; y < quantityCell; y+=stepCell)   //аналогия
             {
                 glBegin(GL_POLYGON);  //начинаем рисовать грань
                 glColor4f( 0.5, 0.5, 0.5, transparency );     glVertex3f(  sizeCell + i, -sizeCell + j, -sizeCell + y);  //здесь и далее сначала цвет
@@ -210,6 +210,8 @@ void specialKeys( int key, int x, int y) {
     glutPostRedisplay(); //а это просто обязательная функция
 
 }
+
+
 
 
 #endif //INC_3DSEEBUTTLE_PAINTING_H
