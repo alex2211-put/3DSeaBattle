@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/alik/Documents/Programming/Repository/3DSeeButtle/3DSeeButtle/ChooseSide.h
+
+/home/alik/Documents/Programming/Repository/3DSeeButtle/3DSeeButtle/Cube.h
+
+/home/alik/Documents/Programming/Repository/3DSeeButtle/3DSeeButtle/Painting.h
+ChooseSide.h
+/home/alik/Documents/Programming/Repository/3DSeeButtle/3DSeeButtle/ChooseSide.h
+iostream
+-
+Cube.h
+/home/alik/Documents/Programming/Repository/3DSeeButtle/3DSeeButtle/Cube.h
+
+/home/alik/Documents/Programming/Repository/3DSeeButtle/3DSeeButtle/WorkWithKeys.h
+Painting.h
+/home/alik/Documents/Programming/Repository/3DSeeButtle/3DSeeButtle/Painting.h
+
+/home/alik/Documents/Programming/Repository/3DSeeButtle/3DSeeButtle/main.cpp
+GL/glut.h
+-
+Painting.h
+/home/alik/Documents/Programming/Repository/3DSeeButtle/3DSeeButtle/Painting.h
+WorkWithKeys.h
+/home/alik/Documents/Programming/Repository/3DSeeButtle/3DSeeButtle/WorkWithKeys.h
+Cube.h
+/home/alik/Documents/Programming/Repository/3DSeeButtle/3DSeeButtle/Cube.h
+

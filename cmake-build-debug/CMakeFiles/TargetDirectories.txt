@@ -1,0 +1,3 @@
+/home/alik/Documents/Programming/Repository/3DSeeButtle/3DSeeButtle/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/alik/Documents/Programming/Repository/3DSeeButtle/3DSeeButtle/cmake-build-debug/CMakeFiles/3DSeeButtle.dir
+/home/alik/Documents/Programming/Repository/3DSeeButtle/3DSeeButtle/cmake-build-debug/CMakeFiles/edit_cache.dir
