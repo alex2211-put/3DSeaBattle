@@ -1,4 +1,4 @@
-# Install script for directory: /home/alik/Documents/Programming/Repository/3DSeeButtle/3DSeeButtle
+# Install script for directory: /home/alik/Documents/Programming/Repository/Roma3DButtle/3DButtleNew
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/alik/Documents/Programming/Repository/3DSeeButtle/3DSeeButtle/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/alik/Documents/Programming/Repository/Roma3DButtle/3DButtleNew/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

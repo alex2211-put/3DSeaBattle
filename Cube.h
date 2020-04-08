@@ -5,271 +5,109 @@
 #ifndef INC_3DSEEBUTTLE_CUBE_H
 #define INC_3DSEEBUTTLE_CUBE_H
 
-class Cube{
+#include <cmath>
+
+const int LengthBigCube = 6;
+int forEnter = -1;
+bool firstSide = false, secondSide = false, thirdSide = false;
+int forOnePaint = 0;
+
+class Cube
+{
 private:
     double transparency;  //прозрачность
     double length;  //длина стороны
-    int forColor;  //для ударов и выбора кубика
+    int forHit;  //для ударов и выбора кубика  Если 1 - выбрали. Если 2 - стоит рядом с кубиком, который выбрали. Если 3 - в него выстрелили
+    bool isPaint;
+    //для переключений между режимами игрыы (выбор, стрельба)
 
-    double red;
-    double blue;
-    double green;
+    double red = 0.5;
+    double blue = 0.5;
+    double green = 0.8;
 
     double x;
     double y;
     double z;
 
 public:
-    Cube(){
-         transparency = 0;
-         length = 0;
-         forColor = 0;
+    int forTransparancy;
 
-         red = 1;
-         blue = 1;
-         green = 1;
+    Cube()
+    {
+        transparency = 0;
+        length = 0;
+        forHit = 0;
+        forTransparancy = 0;
+        isPaint = true;
 
-         x = 0;
-         y = 0;
-         z = 0;
+        red = 0.5;
+        blue = 0.8;
+        green = 0.5;
+
+        x = 0;
+        y = 0;
+        z = 0;
     }
-    Cube(double length, double x, double y, double z, double red, double blue, double green, double transparency){
+
+    Cube(double length, double x, double y, double z, double transparency)
+    {
         this->length = length;
         this->transparency = transparency;
-        forColor = 0;
-
-        this->red = red;
-        this->blue = blue;
-        this->green = green;
+        forHit = 0;
+        forTransparancy = 0;
+        isPaint = true;
 
         this->x = x;
         this->y = y;
         this->z = z;
-
-        glBegin(GL_POLYGON);  //начинаем рисовать грань
-        glColor4f(red, green, blue, transparency);
-        glVertex3f(x - length/2, y - length/2, z - length/2);  //здесь и далее сначала цвет
-        glColor4f(red, green, blue, transparency);
-        glVertex3f(x + length/2, y - length/2, z - length/2);  //(красный, зеленый, синий, прозрачность)
-        glColor4f(red, green, blue, transparency);
-        glVertex3f(x + length/2, y + length/2, z - length/2);  //потом идет положение точки
-        glColor4f(red, green, blue, transparency);
-        glVertex3f(x - length/2, y + length/2, z - length/2);  //4 точки - 1 грань
-        glEnd();  //закончили рисовать одну грань
-
-        glBegin(GL_POLYGON);
-        glColor4f(red, green, blue, transparency);
-        glVertex3f(x - length/2, y - length/2, z - length/2);
-        glColor4f(red, green, blue, transparency);
-        glVertex3f(x + length/2, y - length/2, z - length/2);
-        glColor4f(red, green, blue, transparency);
-        glVertex3f(x + length/2, y - length/2, z + length/2);
-        glColor4f(red, green, blue, transparency);
-        glVertex3f(x - length/2, y - length/2, z + length/2);
-        glEnd();
-
-        glBegin(GL_POLYGON);
-        glColor4f(red, green, blue, transparency);
-        glVertex3f(x + length/2, y - length/2, z - length/2);
-        glColor4f(red, green, blue, transparency);
-        glVertex3f(x + length/2, y + length/2, z - length/2);
-        glColor4f(red, green, blue, transparency);
-        glVertex3f(x + length/2, y + length/2, z + length/2);
-        glColor4f(red, green, blue, transparency);
-        glVertex3f(x + length/2, y - length/2, z + length/2);
-        glEnd();
-
-        glBegin(GL_POLYGON);
-        glColor4f(red, green, blue, transparency);
-        glVertex3f(x + length/2, y + length/2, z - length/2);
-        glColor4f(red, green, blue, transparency);
-        glVertex3f(x - length/2, y + length/2, z - length/2);
-        glColor4f(red, green, blue, transparency);
-        glVertex3f(x - length/2, y + length/2, z + length/2);
-        glColor4f(red, green, blue, transparency);
-        glVertex3f(x + length/2, y + length/2, z + length/2);
-        glEnd();
-
-        glBegin(GL_POLYGON);
-        glColor4f(red, green, blue, transparency);
-        glVertex3f(x - length/2, y - length/2, z - length/2);
-        glColor4f(red, green, blue, transparency);
-        glVertex3f(x - length/2, y - length/2, z + length/2);
-        glColor4f(red, green, blue, transparency);
-        glVertex3f(x - length/2, y + length/2, z + length/2);
-        glColor4f(red, green, blue, transparency);
-        glVertex3f(x - length/2, y + length/2, z - length/2);
-        glEnd();
-
-        glBegin(GL_POLYGON);
-        glColor4f(red, green, blue, transparency);
-        glVertex3f(x - length/2, y - length/2, z + length/2);
-        glColor4f(red, green, blue, transparency);
-        glVertex3f(x + length/2, y - length/2, z + length/2);
-        glColor4f(red, green, blue, transparency);
-        glVertex3f(x + length/2, y + length/2, z + length/2);
-        glColor4f(red, green, blue, transparency);
-        glVertex3f(x - length/2, y + length/2, z + length/2);
-        glEnd();
-/*
-        //пошли ребра
-        glBegin(GL_LINES);  //начинаем рисовать рёбра
-        glColor3f(red, g, b);
-        glVertex3f(sizeCell + i, -sizeCell + j, -sizeCell + y);  //здесь и далее сначала цвет
-        glColor3f(red, g, b);
-        glVertex3f(sizeCell + i, sizeCell + j,-sizeCell + y);  //(красный, зеленый, синий, прозрачность)
-        glEnd();  //одно ребро
-        glBegin(GL_LINES);
-        glColor3f(red, g, b);
-        glVertex3f(sizeCell + i, sizeCell + j,-sizeCell + y);  //(красный, зеленый, синий, прозрачность)
-        glColor3f(red, g, b);
-        glVertex3f(-sizeCell + i, sizeCell + j, -sizeCell + y);  //потом идет положение точки
-        glEnd();  //второе ребро
-        glBegin(GL_LINES);
-        glColor3f(red, g, b);
-        glVertex3f(-sizeCell + i, sizeCell + j, -sizeCell + y);  //потом идет положение точки
-        glColor3f(red, g, b);
-        glVertex3f(-sizeCell + i, -sizeCell + j, -sizeCell + y);  //4 точки - 1 грань
-        glEnd();  //третье ребро
-        glBegin(GL_LINES);
-        glColor3f(red, g, b);
-        glVertex3f(-sizeCell + i, -sizeCell + j, -sizeCell + y);  //4 точки - 1 грань
-        glColor3f(red, g, b);
-        glVertex3f(sizeCell + i, -sizeCell + j, -sizeCell + y);  //здесь и далее сначала цвет
-        glEnd();  //четвёртое ребро
-
-        //следующая грань
-        glBegin(GL_LINES);
-        glColor3f(red, g, b);
-        glVertex3f(sizeCell + i, -sizeCell + j, sizeCell + y);
-        glColor3f(red, g, b);
-        glVertex3f(sizeCell + i, sizeCell + j, sizeCell + y);
-        glEnd();
-        glBegin(GL_LINES);
-        glColor3f(red, g, b);
-        glVertex3f(sizeCell + i, sizeCell + j, sizeCell + y);
-        glColor3f(red, g, b);
-        glVertex3f(-sizeCell + i, sizeCell + j, sizeCell + y);
-        glEnd();
-        glBegin(GL_LINES);
-        glColor3f(red, g, b);
-        glVertex3f(-sizeCell + i, sizeCell + j, sizeCell + y);
-        glColor3f(red, g, b);
-        glVertex3f(-sizeCell + i, -sizeCell + j, sizeCell + y);
-        glEnd();
-        glBegin(GL_LINES);
-        glColor3f(red, g, b);
-        glVertex3f(sizeCell + i, -sizeCell + j, sizeCell + y);
-        glColor3f(red, g, b);
-        glVertex3f(-sizeCell + i, -sizeCell + j, sizeCell + y);
-        glEnd();
-
-        //следующая
-        glBegin(GL_LINES);
-        glColor3f(red, g, b);
-        glVertex3f(sizeCell + i, -sizeCell + j, -sizeCell + y);
-        glColor3f(red, g, b);
-        glVertex3f(sizeCell + i, sizeCell + j, -sizeCell + y);
-        glEnd();
-        glBegin(GL_LINES);
-        glColor3f(red, g, b);
-        glVertex3f(sizeCell + i, sizeCell + j, -sizeCell + y);
-        glColor3f(red, g, b);
-        glVertex3f(sizeCell + i, sizeCell + j, sizeCell + y);
-        glEnd();
-        glBegin(GL_LINES);
-        glColor3f(red, g, b);
-        glVertex3f(sizeCell + i, sizeCell + j, sizeCell + y);
-        glColor3f(red, g, b);
-        glVertex3f(sizeCell + i, -sizeCell + j, sizeCell + y);
-        glEnd();
-        glBegin(GL_LINES);
-        glColor3f(red, g, b);
-        glVertex3f(sizeCell + i, -sizeCell + j, -sizeCell + y);
-        glColor3f(red, g, b);
-        glVertex3f(sizeCell + i, -sizeCell + j, sizeCell + y);
-        glEnd();
-
-        //ещё одна
-        glBegin(GL_LINES);
-        glColor3f(red, g, b);
-        glVertex3f(-sizeCell + i, -sizeCell + j, sizeCell + y);
-        glColor3f(red, g, b);
-        glVertex3f(-sizeCell + i, sizeCell + j, sizeCell + y);
-        glEnd();
-        glBegin(GL_LINES);
-        glColor3f(red, g, b);
-        glVertex3f(-sizeCell + i, sizeCell + j, sizeCell + y);
-        glColor3f(red, g, b);
-        glVertex3f(-sizeCell + i, sizeCell + j, -sizeCell + y);
-        glEnd();
-        glBegin(GL_LINES);
-        glColor3f(red, g, b);
-        glVertex3f(-sizeCell + i, sizeCell + j, -sizeCell + y);
-        glColor3f(red, g, b);
-        glVertex3f(-sizeCell + i, -sizeCell + j, -sizeCell + y);
-        glEnd();
-        glBegin(GL_LINES);
-        glColor3f(red, g, b);
-        glVertex3f(-sizeCell + i, -sizeCell + j, sizeCell + y);
-        glColor3f(red, g, b);
-        glVertex3f(-sizeCell + i, -sizeCell + j, -sizeCell + y);
-        glEnd();
-
-        //немного осталось
-        glBegin(GL_LINES);
-        glColor3f(red, g, b);
-        glVertex3f(sizeCell + i, sizeCell + j, sizeCell + y);
-        glColor3f(red, g, b);
-        glVertex3f(sizeCell + i, sizeCell + j, -sizeCell + y);
-        glEnd();
-        glBegin(GL_LINES);
-        glColor3f(red, g, b);
-        glVertex3f(sizeCell + i, sizeCell + j, -sizeCell + y);
-        glColor3f(red, g, b);
-        glVertex3f(-sizeCell + i, sizeCell + j, -sizeCell + y);
-        glEnd();
-        glBegin(GL_LINES);
-        glColor3f(red, g, b);
-        glVertex3f(-sizeCell + i, sizeCell + j, -sizeCell + y);
-        glColor3f(red, g, b);
-        glVertex3f(-sizeCell + i, sizeCell + j, sizeCell + y);
-        glEnd();
-        glBegin(GL_LINES);
-        glColor3f(red, g, b);
-        glVertex3f(sizeCell + i, sizeCell + j, sizeCell + y);
-        glColor3f(red, g, b);
-        glVertex3f(-sizeCell + i, sizeCell + j, sizeCell + y);
-        glEnd();
-
-        //последняя
-        glBegin(GL_LINES);
-        glColor3f(red, g, b);
-        glVertex3f(sizeCell + i, -sizeCell + j, -sizeCell + y);
-        glColor3f(red, g, b);
-        glVertex3f(sizeCell + i, -sizeCell + j, sizeCell + y);
-        glEnd();
-        glBegin(GL_LINES);
-        glColor3f(r, g, b);
-        glVertex3f(sizeCell + i, -sizeCell + j, sizeCell + y);
-        glColor3f(r, g, b);
-        glVertex3f(-sizeCell + i, -sizeCell + j, sizeCell + y);
-        glEnd();
-        glBegin(GL_LINES);
-        glColor3f(r, g, b);
-        glVertex3f(-sizeCell + i, -sizeCell + j, sizeCell + y);
-        glColor3f(r, g, b);
-        glVertex3f(-sizeCell + i, -sizeCell + j, -sizeCell + y);
-        glEnd();
-        glBegin(GL_LINES);
-        glColor3f(r, g, b);
-        glVertex3f(sizeCell + i, -sizeCell + j, -sizeCell + y);
-        glColor3f(r, g, b);
-        glVertex3f(-sizeCell + i, -sizeCell + j, -sizeCell + y);
-        glEnd();*/
     }
 
 
+    void setColor(double Red, double Green, double Blue)
+    {
+        this->red = Red;
+        this->blue = Blue;
+        this->green = Green;
+    }
+
+    void setPaint(bool isPainted)
+    {
+        this->isPaint = isPainted;
+    }
+
+    bool getPaint()
+    {
+        return isPaint;
+    }
+
+    void setTransparency(double transparancy)
+    {
+        this->transparency = transparancy;
+        forTransparancy = 1;
+    }
+
+    void setTransparancyNothing()
+    {
+        if (forTransparancy == 0)
+        {
+            transparency = 0.11;
+            setColor(0.5, 0.5, 0.8);
+        }
+    }
+
+    void paintForRotate(double angle);
+
+    void paintCube();
+
+    void setIsHitten(int hit)
+    {
+        this->forHit = hit;
+    }
+
+    int getHit()
+    {
+        return forHit;
+    }
 };
 
 #endif //INC_3DSEEBUTTLE_CUBE_H

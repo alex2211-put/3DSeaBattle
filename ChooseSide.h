@@ -5,102 +5,142 @@
 #ifndef INC_3DSEEBUTTLE_CHOOSESIDE_H
 #define INC_3DSEEBUTTLE_CHOOSESIDE_H
 
-void choose_first_side (float& r_i_min, float& r_j_min, float& r_y_min, float& r_i_max, float& r_j_max, float& r_y_max, double& r_r, double& r_g, double& r_b, double& r_rotate_x, double& r_rotate_y) {
-    r_i_min = 0.24;
-    r_j_min = -1;
-    r_y_min = -1;
-    r_i_max = 0.26;
-    r_j_max = 1;
-    r_y_max = 1;
-    r_r = 1;
-    r_g = 0;
-    r_b = 0;
-    r_rotate_x = -180;
-    r_rotate_y = -90;
+
+#include "Cube.h"
+#include "Painting.h"
+
+
+void choose_first_side(double &rotateX, double &rotateY)
+{
+
+    for (auto &i : a)
+        for (auto &j : i)
+            for (auto &k : j)
+            {
+                k.forTransparancy = 0;
+            }
+
+    for (int j = 0; j < LengthBigCube; j++)
+        for (int k = 0; k < LengthBigCube; k++)
+        {
+            a[LengthBigCube - 1][j][k].setColor(0.2, 0, 0);
+            a[LengthBigCube - 1][j][k].setTransparency(0.5);
+        }
+
+    rotateX = 0;
+    rotateY = 90;
 }
 
-void choose_second_side (float& r_i_min, float& r_j_min, float& r_y_min, float& r_i_max, float& r_j_max, float& r_y_max, double& r_r, double& r_g, double& r_b, double& r_rotate_x, double& r_rotate_y) {
-    r_i_min = -1;
-    r_j_min = 0.24;
-    r_y_min = -1;
-    r_i_max = 1;
-    r_j_max = 0.26;
-    r_y_max = 1;
-    r_r = 0;
-    r_g = 1;
-    r_b = 0;
-    r_rotate_x = -90;
-    r_rotate_y = 270;
+void choose_second_side(double &rotateX, double &rotateY)
+{
+    for (auto &i : a)
+        for (auto &j : i)
+            for (auto &k : j)
+            {
+                k.forTransparancy = 0;
+            }
+
+    for (auto &j : a)
+        for (int k = 0; k < LengthBigCube; k++)
+        {
+            j[LengthBigCube - 1][k].setColor(0, 0.2, 0);
+            j[LengthBigCube - 1][k].setTransparency(0.5);
+        }
+
+    rotateX = -90;
+    rotateY = 180;
 }
 
-void choose_third_side (float& r_i_min, float& r_j_min, float& r_y_min, float& r_i_max, float& r_j_max, float& r_y_max, double& r_r, double& r_g, double& r_b, double& r_rotate_x, double& r_rotate_y) {
-    r_i_min = -1;
-    r_j_min = -1;
-    r_y_min = 0.24;
-    r_i_max = 1;
-    r_j_max = 1;
-    r_y_max = 0.26;
-    r_r = 0;
-    r_g = 0;
-    r_b = 1;
-    r_rotate_x = -180;
-    r_rotate_y = 0;
+void choose_third_side(double &rotateX, double &rotateY)
+{
+    for (auto &i : a)
+        for (auto &j : i)
+            for (auto &k : j)
+            {
+                k.forTransparancy = 0;
+            }
+
+    for (int j = 0; j < LengthBigCube; j++)
+        for (auto &k : a)
+        {
+            k[j][LengthBigCube - 1].setColor(0, 0, 0.2);
+            k[j][LengthBigCube - 1].setTransparency(0.5);
+        }
+
+    rotateX = 0;
+    rotateY = 180;
 }
 
-void default_position (float& r_i_min, float& r_j_min, float& r_y_min, float& r_i_max, float& r_j_max, float& r_y_max, double& r_r, double& r_g, double& r_b,double& r_rotate_x, double& r_rotate_y) {
-    r_i_min = -1;
-    r_j_min = -1;
-    r_y_min = -1;
-    r_i_max = 1;
-    r_j_max = 1;
-    r_y_max = 1;
-    r_r = 0.5;
-    r_g = 0.5;
-    r_b = 0.5;
-    r_rotate_x = 325;
-    r_rotate_y = 135;
+void default_position(double &rotateX, double &rotateY)
+{
+    for (auto &i : a)
+        for (auto &j : i)
+            for (auto &k : j)
+            {
+                k.forTransparancy = 0;
+                k.setColor(0.5, 0.5, 0.8);
+                k.setTransparency(0.11);
+            }
+
+    rotateX = 325;
+    rotateY = 135;
 }
 
-void view_first_side (float& r_i_min, float& r_j_min, float& r_y_min, float& r_i_max, float& r_j_max, float& r_y_max, double& r_r, double& r_g, double& r_b, double& r_rotate_x, double& r_rotate_y) {
-    r_i_min = 0.24;
-    r_j_min = -1;
-    r_y_min = -1;
-    r_i_max = 0.26;
-    r_j_max = 1;
-    r_y_max = 1;
-    r_r = 1;
-    r_g = 0;
-    r_b = 0;
-    r_rotate_x = 325;
-    r_rotate_y = 135;
+void view_first_side(double &rotateX, double &rotateY)
+{
+    for (auto &i : a)
+        for (auto &j : i)
+            for (auto &k : j)
+            {
+                k.forTransparancy = 0;
+            }
+
+    for (int j = 0; j < LengthBigCube; j++)
+        for (int k = 0; k < LengthBigCube; k++)
+        {
+            a[LengthBigCube - 1][j][k].setColor(1, 0, 0);
+        }
+
+    rotateX = 325;
+    rotateY = 135;
 }
 
-void view_second_side (float& r_i_min, float& r_j_min, float& r_y_min, float& r_i_max, float& r_j_max, float& r_y_max, double& r_r, double& r_g, double& r_b, double& r_rotate_x, double& r_rotate_y) {
-    r_i_min = -1;
-    r_j_min = 0.24;
-    r_y_min = -1;
-    r_i_max = 1;
-    r_j_max = 0.26;
-    r_y_max = 1;
-    r_r = 0;
-    r_g = 1;
-    r_b = 0;
-    r_rotate_x=325;
-    r_rotate_y=135;
+void view_second_side(double &rotateX, double &rotateY)
+{
+    for (auto &i : a)
+        for (auto &j : i)
+            for (auto &k : j)
+            {
+                k.forTransparancy = 0;
+            }
+
+    for (auto &j : a)
+        for (int k = 0; k < LengthBigCube; k++)
+        {
+            j[LengthBigCube - 1][k].setColor(0, 1, 0);
+        }
+
+    rotateX = 325;
+    rotateY = 135;
 }
 
-void view_third_side (float& r_i_min, float& r_j_min, float& r_y_min, float& r_i_max, float& r_j_max, float& r_y_max, double& r_r, double& r_g, double& r_b, double& r_rotate_x, double& r_rotate_y) {
-    r_i_min = -1;
-    r_j_min = -1;
-    r_y_min = 0.24;
-    r_i_max = 1;
-    r_j_max = 1;
-    r_y_max = 0.26;
-    r_r = 0;
-    r_g = 0;
-    r_b = 1;
-    r_rotate_x=325;
-    r_rotate_y=135;
+void view_third_side(double &rotateX, double &rotateY)
+{
+    for (auto &i : a)
+        for (auto &j : i)
+            for (auto &k : j)
+            {
+                k.forTransparancy = 0;
+            }
+
+    for (int j = 0; j < LengthBigCube; j++)
+        for (auto &k : a)
+        {
+            k[j][LengthBigCube - 1].setColor(0, 0, 1);
+        }
+
+    rotateX = 325;
+    rotateY = 135;
 }
 
 
