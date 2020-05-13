@@ -9,141 +9,81 @@
 #ifndef INC_3DSEEBUTTLE_PAINTING_H
 #define INC_3DSEEBUTTLE_PAINTING_H
 
-#include <iostream>
-#include "Cube.h"
+#include <random>
+#include <cmath>
+#include <cstdio>   // Эта штука переводит числа в строки
+#include <chrono>
 #include "PaintingCubes.h"
+#include "Text.h"
+#include "DisplayCubes.h"
 
-double rotate_y = 135;  //начальный поворот куба по у
-double rotate_x = -35; //начальный поворот куба по х
-double &r_rotate_x = rotate_x;
-double &r_rotate_y = rotate_y;
 
 bool movement = true;
 
-Cube a[LengthBigCube][LengthBigCube][LengthBigCube];
-Cube b[LengthBigCube][LengthBigCube][LengthBigCube];
-bool cubeA = true;
+bool mainmenu = true;           // Главное меню
+bool rules = false;             // Переходит во вкладку "Правила" в главном меню
+bool authors = false;           // Переходит во вкладку "Авторы" в главном меню
+unsigned int carrier = 0;       // Листает элементы меню
 
-void Rotate(int value)
-{
-    if (forEnter != -1)
-        return;
-    glLoadIdentity();
-    glRotatef(rotate_x, 1.0, 0.0, 0.0);  //функция, поворачивающая кубики по х
-    glRotatef(rotate_y, 0.0, 1.0, 0.0);  //а это для у
-    if (forEnter == -1)
-        rotate_y++;
-    glutPostRedisplay();
-    glutTimerFunc(2, Rotate, 1);
-}
+bool first = true;
 
 void displayCell()
 {
-    if (cubeA)
+    if (first)
+    {
+        start = get_time();
+        first = false;
+    }
+    if (forEnter == -1)
         glClearColor(0.07, 0.07, 0.25, 0.f);  //меняем цвет фона
-    else
-        glClearColor(0.1, 0.45, 0.1, 0.f);  //цвет фона
+    sprintf(&text3[7], "%i", LengthBigCube);    // Размер поля в главном меню
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //очищаем экран, чтобы картинки "не размножались"
 
+    glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glRotatef(rotate_x, 1.0, 0.0, 0.0);  //функция, поворачивающая кубики по х
-    glRotatef(rotate_y, 0.0, 1.0, 0.0);  //а это для у
+    gluOrtho2D(1, 1, 1, 1);  //Для написания помощи временно делаем проекцию 2D
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
 
     glEnable(GL_ALPHA_TEST); //включаем прозрачность
     glEnable(GL_BLEND);  //разрешаем мешать цвета
     glBlendFunc(GL_SRC_ALPHA,
                 GL_ONE_MINUS_SRC_ALPHA);  //устанавливаем уровень прозрачности - пока до конца не разобрался
 
-    if (forEnter == -1)
-        rotate_y++;
-
-    if (forOnePaint == 0 && forEnter == 0)
+    menupuncts[carrier] = true;     // С помощью него листаем меню
+    if (mainmenu)
+    {             // Начало игры. Отсюда и до 141 строки даже не копайтесь в коде
+        mainMenuFunction();
+    } else if (end1)
     {
-        for (int i = 0; i < LengthBigCube; i++)
-            for (int j = 0; j < LengthBigCube; j++)
-                for (int k = 0; k < LengthBigCube; k++)
-                    if (a[i][j][k].getPaint())
-                    {
-                        a[i][j][k] = Cube(1.1 / (LengthBigCube),
-                                          i * 1.1 / LengthBigCube - LengthBigCube * 0.55 / LengthBigCube +
-                                          0.55 / LengthBigCube,
-                                          j * 1.1 / LengthBigCube - LengthBigCube * 0.55 / LengthBigCube +
-                                          0.55 / LengthBigCube,
-                                          k * 1.1 / LengthBigCube - LengthBigCube * 0.55 / LengthBigCube +
-                                          0.55 / LengthBigCube, 0.11);
-
-                        a[i][j][k].setColor(0.5, 0.5, 0.8);
-                        forOnePaint = 1;
-                    }
-    }
-
-    if (forOnePaint == 0 && forEnter == -1)
+        end1Function();
+    } else if (end2)
     {
-        for (int i = 0; i < LengthBigCube; i++)
-            for (int j = 0; j < LengthBigCube; j++)
-                for (int k = 0; k < LengthBigCube; k++)
-                {
-                    if (cubeA)
-                    {
-                        a[i][j][k] = Cube(1.1 / (LengthBigCube * 2),
-                                          i * 1.1 / (LengthBigCube * 2) - 0.55 + 0.55 / (LengthBigCube * 2) +
-                                          0.55 * LengthBigCube / (LengthBigCube * 2),
-                                          j * 1.1 / (LengthBigCube * 2) - 0.55 + 0.55 / (LengthBigCube * 2) +
-                                          0.55 * LengthBigCube / (LengthBigCube * 2),
-                                          k * 1.1 / (LengthBigCube * 2) - 0.55 + 0.55 / (LengthBigCube * 2) +
-                                          0.55 * LengthBigCube / (LengthBigCube * 2), 0.11);
+        end2Function();
+    } else if (rules)
+    {
+        rulesFunction();
+    } else if (authors)
+    {
+        authorsFunction();
+    } else if (help)
+    {
+        helpFunction();
+    } else
+    {        // После отключения справки возвращаемся в 3D
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glOrtho(-1.5, 1.5, -1, 1, 1, -1);
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
 
-                        b[i][j][k] = Cube(1.1 / (LengthBigCube * 2),
-                                          i * 1.1 / (LengthBigCube * 2) - 0.55 + 0.55 / (LengthBigCube * 2) - 0.25,
-                                          j * 1.1 / (LengthBigCube * 2) - 0.55 + 0.55 / (LengthBigCube * 2) + 0.28,
-                                          k * 1.1 / (LengthBigCube * 2) - 0.55 + 0.55 / (LengthBigCube * 2) + 0.785,
-                                          0.11);
-                        a[i][j][k].setColor(1, 0, 0);
-                    } else if (!cubeA)
-                    {
-                        b[i][j][k] = Cube(1.1 / (LengthBigCube * 2),
-                                          i * 1.1 / (LengthBigCube * 2) - 0.55 + 0.55 / (LengthBigCube * 2) +
-                                          0.55 * LengthBigCube / (LengthBigCube * 2),
-                                          j * 1.1 / (LengthBigCube * 2) - 0.55 + 0.55 / (LengthBigCube * 2) +
-                                          0.55 * LengthBigCube / (LengthBigCube * 2),
-                                          k * 1.1 / (LengthBigCube * 2) - 0.55 + 0.55 / (LengthBigCube * 2) +
-                                          0.55 * LengthBigCube / (LengthBigCube * 2), 0.11);
+        glRotatef(rotate_x, 1.0, 0.0, 0.0);  //функция, поворачивающая кубики по х
+        glRotatef(rotate_y, 0.0, 1.0, 0.0);  //а это для у
 
-                        a[i][j][k] = Cube(1.1 / (LengthBigCube * 2),
-                                          i * 1.1 / (LengthBigCube * 2) - 0.55 + 0.55 / (LengthBigCube * 2) + 0.25,
-                                          j * 1.1 / (LengthBigCube * 2) - 0.55 + 0.55 / (LengthBigCube * 2) - 0.28,
-                                          k * 1.1 / (LengthBigCube * 2) - 0.55 + 0.55 / (LengthBigCube * 2) - 0.785,
-                                          0.11);
-                        b[i][j][k].setColor(1, 0, 0);
-                    }
-                    forOnePaint = 1;
-                }
+        twoBigCubes();
+        oneBigCube();
     }
-
-
-    for (auto &i : a)
-        for (auto &j : i)
-            for (auto &k : j)
-                if (k.getPaint())
-                {
-                    if (forEnter == -1 && !cubeA)
-                    {
-                        k.paintForRotate(rotate_y);
-                    } else k.paintCube();
-                    if (forEnter != -1)
-                        k.setTransparancyNothing();
-                }
-
-    if (forEnter == -1)
-        for (auto &i : b)
-            for (auto &j : i)
-                for (auto &k : j)
-                {
-                    if (cubeA)
-                        k.paintForRotate(rotate_y);
-                    else k.paintCube();
-                }
-
     glFlush();
     glutSwapBuffers();
 }

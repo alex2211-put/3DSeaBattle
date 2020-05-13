@@ -7,7 +7,7 @@
 
 #include "Cube.h"
 
-void Cube::paintForRotate(double angle)
+[[maybe_unused]] void Cube::paintForRotate(double angle) const
 {
     angle -= 135;
     angle = angle * 3.14 / 180;
@@ -301,7 +301,7 @@ void Cube::paintForRotate(double angle)
     glEnd();
 }
 
-void Cube::paintCube()
+void Cube::paintCube() const
 {
     glBegin(GL_POLYGON);  //начинаем рисовать грань
     glColor4f(red, green, blue, transparency);
@@ -521,5 +521,6 @@ void Cube::paintCube()
     glVertex3f(x - length / 2, y + length / 2, z + length / 2);
     glEnd();
 }
+
 
 #endif //INC_3DSEEBUTTLE_PAINTINGCUBES_H

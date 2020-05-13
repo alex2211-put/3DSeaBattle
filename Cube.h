@@ -7,9 +7,15 @@
 
 #include <cmath>
 
-const int LengthBigCube = 6;
+bool end1 = false;
+bool end2 = false;
+bool space = false;
+
+int forTwoPlayers = 0;
+int LengthBigCube = 4;
 int forEnter = -1;
 bool firstSide = false, secondSide = false, thirdSide = false;
+
 int forOnePaint = 0;
 
 class Cube
@@ -17,9 +23,10 @@ class Cube
 private:
     double transparency;  //прозрачность
     double length;  //длина стороны
-    int forHit;  //для ударов и выбора кубика  Если 1 - выбрали. Если 2 - стоит рядом с кубиком, который выбрали. Если 3 - в него выстрелили
+    int forHit;  //для ударов и выбора кубика  Если 1 - выбрали. Если 2 - стоит рядом с кубиком, который выбрали. Если 3 - в него выстрелили и промахнулись. 4 - выстрелили и попали
     bool isPaint;
-    //для переключений между режимами игрыы (выбор, стрельба)
+    //для переключений между режимами игры (выбор, стрельба)
+    bool isRed{};
 
     double red = 0.5;
     double blue = 0.5;
@@ -32,6 +39,15 @@ private:
 public:
     int forTransparancy;
 
+    void changeCube(double _length, double _x, double _y, double _z, double _transparency)
+    {
+        this->length = _length;
+        this->x = _x;
+        this->y = _y;
+        this->z = _z;
+        this->transparency = _transparency;
+    }
+
     Cube()
     {
         transparency = 0;
@@ -39,6 +55,7 @@ public:
         forHit = 0;
         forTransparancy = 0;
         isPaint = true;
+        isRed = false;
 
         red = 0.5;
         blue = 0.8;
@@ -56,6 +73,7 @@ public:
         forHit = 0;
         forTransparancy = 0;
         isPaint = true;
+        isRed = false;
 
         this->x = x;
         this->y = y;
@@ -70,12 +88,22 @@ public:
         this->green = Green;
     }
 
+    void setRed(bool _isRed)
+    {
+        this->isRed = _isRed;
+    }
+
+    [[nodiscard]] bool getRed() const
+    {
+        return isRed;
+    }
+
     void setPaint(bool isPainted)
     {
         this->isPaint = isPainted;
     }
 
-    bool getPaint()
+    [[nodiscard]] bool getPaint() const
     {
         return isPaint;
     }
@@ -95,18 +123,39 @@ public:
         }
     }
 
-    void paintForRotate(double angle);
+    [[maybe_unused]] void paintForRotate(double angle) const;
 
-    void paintCube();
+    void paintCube() const;
 
     void setIsHitten(int hit)
     {
         this->forHit = hit;
     }
 
-    int getHit()
+    [[nodiscard]] int getHit() const
     {
         return forHit;
+    }
+
+    Cube(Cube *pCube)
+    {
+        this->x = pCube->x;
+        this->y = pCube->y;
+        this->z = pCube->z;
+
+        this->length = pCube->length;
+
+        this->blue = pCube->blue;
+        this->red = pCube->red;
+        this->green = pCube->green;
+
+        this->transparency = pCube->transparency;
+
+        this->forHit = pCube->forHit;
+        this->forTransparancy = pCube->forTransparancy;
+
+        this->isPaint = pCube->isPaint;
+        this->isRed = false;
     }
 };
 

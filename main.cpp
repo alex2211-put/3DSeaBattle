@@ -16,7 +16,6 @@ int main(int argc, char *argv[])
     glutKeyboardFunc(Keyboard);
     glutSpecialFunc(specialKeys);  //вызываем функцию для поворотов кубиков
     glutReshapeFunc(changeSize);
-    glutTimerFunc(2, Rotate, 1);
 
     glutMainLoop();  //а это бесконечный цикл
     return 0;

@@ -3,7 +3,7 @@ project(3DSeeButtle)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(3DSeeButtle main.cpp Painting_second_cube.h ChooseSide.h WorkWithKeys.h)
+add_executable(3DSeeButtle main.cpp ChooseSide.h WorkWithKeys.h)
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
 
